@@ -1,0 +1,46 @@
+{
+  "name": "ager-api-v1",
+  "version": "1.0.0",
+  "description": "Api para acesso aos dados coletados pelo robô AGER",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node_modules/.bin/nodemon index",
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "8.9.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Razborges/ager-api-v1.git"
+  },
+  "keywords": [
+    "Node",
+    "Express",
+    "API"
+  ],
+  "author": "RazBorges",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Razborges/ager-api-v1/issues"
+  },
+  "homepage": "https://github.com/Razborges/ager-api-v1#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "nodemon": "^1.17.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "morgan": "^1.9.0",
+    "pg": "^7.4.1",
+    "sequelize": "^4.37.5"
+  }
+}
