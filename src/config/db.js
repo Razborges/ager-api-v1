@@ -19,4 +19,20 @@ const sequelize = new Sequelize(
   },
 );
 
-module.exports = sequelize;
+const db = {
+  Robot: sequelize.import('../models/robot'),
+  User: sequelize.import('../models/user'),
+  Route: sequelize.import('../models/route'),
+  Work: sequelize.import('../models/work'),
+  Battery: sequelize.import('../models/battery'),
+};
+
+Object.keys(db).forEach((modelName) => {
+  if ('associate' in db[modelName]) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+
+module.exports = db;
