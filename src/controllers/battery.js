@@ -11,7 +11,7 @@ router.post('/:numberSeries', async (req, res) => {
 
   const robot = await Robot.findOne({ where: { numberSeries } });
 
-  Battery.create({ level, robot })
+  Battery.create({ level, robotId: robot.id })
     .then(result => res.status(201).json({
       error: false,
       data: result,
