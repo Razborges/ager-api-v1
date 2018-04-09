@@ -11,5 +11,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/robot', require('../controllers/robot'));
+app.use('/battery', require('../controllers/battery'));
 
 module.exports = app;
