@@ -29,7 +29,7 @@ router.get('/:numberSeries', async (req, res) => {
   const { numberSeries } = req.params;
   const robot = await Robot.findOne({ where: { numberSeries } });
 
-  Battery.findAll({ where: { robotId: robot.id } })
+  Battery.findAll({ where: { robotId: robot.id }, order: [['createdAt', 'DESC']] })
     .then(result => res.status(201).json({
       error: false,
       data: { battery: result, robot },
