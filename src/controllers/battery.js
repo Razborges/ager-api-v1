@@ -12,7 +12,9 @@ router.post('/:numberSeries', async (req, res) => {
   const robot = await Robot.findOne({ where: { numberSeries } });
 
   // Battery.create({ level, robotId: robot.id })
-  Battery.create({ level }).setRobot(robot)
+  const battery = Battery.build({ level });
+  battery.setRobot(robot);
+  battery.save()
     .then(result => res.status(201).json({
       error: false,
       data: result,
