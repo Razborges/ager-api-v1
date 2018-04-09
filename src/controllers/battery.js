@@ -10,10 +10,9 @@ router.post('/:numberSeries', async (req, res) => {
   const { level } = req.body;
 
   const robot = await Robot.findOne({ where: { numberSeries } });
-
-  // Battery.create({ level, robotId: robot.id })
   const battery = Battery.build({ level });
   battery.setRobot(robot);
+
   battery.save()
     .then(result => res.status(201).json({
       error: false,
@@ -30,7 +29,7 @@ router.get('/:numberSeries', async (req, res) => {
   const { numberSeries } = req.params;
   const robot = await Robot.findOne({ where: { numberSeries } });
 
-  Battery.findAll({ where: { robotId: robot.id }, order: 'createdAt DESC' })
+  Battery.findAll({ where: { robotId: robot.id } })
     .then(result => res.status(201).json({
       error: false,
       data: { battery: result, robot },
