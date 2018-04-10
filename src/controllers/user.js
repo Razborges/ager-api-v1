@@ -34,7 +34,7 @@ router.get('/:serviceId', async (req, res) => {
 
   const user = await User.findOne({ where: { serviceId } });
 
-  Robot.findOne({ where: { numberSeries: user.robotId } })
+  await Robot.findOne({ where: { numberSeries: user.robotId } })
     .then(result => res.status(201).json({
       error: false,
       data: { user, robot: result },
