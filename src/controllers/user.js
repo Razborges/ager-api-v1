@@ -32,12 +32,15 @@ router.post('/:numberSeries', async (req, res) => {
 router.get('/:serviceId', async (req, res) => {
   const { serviceId } = req.params;
 
-  const user = await User.findOne({ where: { serviceId } });
-
-  await Robot.findOne({ where: { numberSeries: user.robotId } })
+  User.findOne({
+    where: { serviceId },
+    include: [
+      { model: Robot, required: true },
+    ],
+  })
     .then(result => res.status(201).json({
       error: false,
-      data: { user, robot: result },
+      data: { result },
     }))
     .catch(error => res.status(404).json({
       error: true,
