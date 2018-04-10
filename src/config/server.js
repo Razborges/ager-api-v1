@@ -12,5 +12,6 @@ app.use(bodyParser.json());
 
 app.use('/robot', require('../controllers/robot'));
 app.use('/battery', require('../controllers/battery'));
+app.use('/user', require('../controllers/user'));
 
 module.exports = app;
