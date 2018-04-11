@@ -12,8 +12,8 @@ router.post('/:idRoute', async (req, res) => {
     temperature, humidity, startWork, endWork,
   } = req.body;
 
-  const initDate = moment.unix(startWork).utc();
-  const endDate = moment.unix(endWork).utc();
+  const initDate = moment(startWork, 'DD/MM/YYYY hh:mm:ss').utc();
+  const endDate = moment(endWork, 'DD/MM/YYYY hh:mm:ss').utc();
 
   const route = await Route.findById(idRoute);
   const work = Work.build({
