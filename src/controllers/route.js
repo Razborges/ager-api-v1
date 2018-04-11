@@ -39,11 +39,25 @@ router.get('/:numberSeries', async (req, res) => {
 
   Route.findAll({
     where: { robotId: robot.id, active: true },
-    order: [['createdAt', 'DESC']],
-    include: [
-      { model: Robot, required: true },
-    ],
+    order: [['createdAt', 'ASC']],
   })
+    .then(result => res.status(201).json({
+      error: false,
+      data: { routes: result, robot },
+    }))
+    .catch(error => res.status(404).json({
+      error: true,
+      type: error,
+    }));
+});
+
+router.put('/:idRoute', async (req, res) => {
+  const { idRoute } = req.params;
+  const { start } = req.body;
+
+  const date = moment(start, 'DD/MM/YYYY').utc();
+
+  Route.update({ start: date }, { where: { id: idRoute } })
     .then(result => res.status(201).json({
       error: false,
       data: { result },
