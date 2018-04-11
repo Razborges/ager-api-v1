@@ -16,13 +16,13 @@ router.post('/:idRoute', async (req, res) => {
   const endDate = moment(endWork, 'DD/MM/YYYY hh:mm:ss').utc();
 
   const route = await Route.findById(idRoute);
-  const work = Work.build({
+  const work = await Work.build({
     temperature,
     humidity,
     startWork: initDate,
     endWork: endDate,
   });
-  work.setRobot(route);
+  work.setRoute(route);
 
   work.save()
     .then(result => res.status(201).json({
