@@ -18,7 +18,7 @@ router.post('/:numberSeries', async (req, res) => {
       error: false,
       data: result,
     }))
-    .catch(error => res.status(404).json({
+    .catch(error => res.status(501).json({
       error: true,
       data: [],
       type: error,
@@ -30,7 +30,7 @@ router.get('/:numberSeries', async (req, res) => {
   const robot = await Robot.findOne({ where: { numberSeries } });
 
   Battery.findAll({ where: { robotId: robot.id }, order: [['createdAt', 'DESC']] })
-    .then(result => res.status(201).json({
+    .then(result => res.status(200).json({
       error: false,
       data: { battery: result, robot },
     }))

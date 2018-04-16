@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
       error: false,
       data: result,
     }))
-    .catch(error => res.status(404).json({
+    .catch(error => res.status(501).json({
       error: true,
       data: [],
       type: error,
@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
   Robot.findAndCountAll()
-    .then(result => res.status(201).json({
+    .then(result => res.status(200).json({
       error: false,
       data: result,
     }))
@@ -33,7 +33,7 @@ router.get('/', (req, res) => {
 router.get('/:numberSeries', (req, res) => {
   const { numberSeries } = req.params;
   Robot.findOne({ where: { numberSeries } })
-    .then(result => res.status(201).json({
+    .then(result => res.status(200).json({
       error: false,
       data: result,
     }))
