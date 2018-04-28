@@ -16,24 +16,34 @@ router.post('/:idRoute', async (req, res) => {
   const endDate = moment(endWork, 'DD/MM/YYYY hh:mm:ss').utc();
 
   const route = await Route.findById(idRoute);
-  const work = await Work.build({
-    temperature,
-    humidity,
-    startWork: initDate,
-    endWork: endDate,
-  });
-  work.setRoute(route);
 
-  work.save()
-    .then(result => res.status(201).json({
-      error: false,
-      data: result,
-    }))
-    .catch(error => res.status(501).json({
+  if (!route) {
+    res.status(404).json({
       error: true,
       data: [],
-      type: error,
-    }));
+    });
+  }
+
+  if (route) {
+    const work = await Work.build({
+      temperature,
+      humidity,
+      startWork: initDate,
+      endWork: endDate,
+    });
+    work.setRoute(route);
+
+    work.save()
+      .then(result => res.status(201).json({
+        error: false,
+        data: result,
+      }))
+      .catch(error => res.status(501).json({
+        error: true,
+        data: [],
+        type: error,
+      }));
+  }
 });
 
 router.get('/:idRoute', async (req, res) => {
@@ -41,18 +51,27 @@ router.get('/:idRoute', async (req, res) => {
 
   const route = await Route.findById(idRoute);
 
-  Work.findAll({
-    where: { routeId: route.id },
-    order: [['createdAt', 'DESC']],
-  })
-    .then(result => res.status(200).json({
-      error: false,
-      data: { works: result, route },
-    }))
-    .catch(error => res.status(404).json({
+  if (!route) {
+    res.status(404).json({
       error: true,
-      type: error,
-    }));
+      data: [],
+    });
+  }
+
+  if (route) {
+    Work.findAll({
+      where: { routeId: route.id },
+      order: [['createdAt', 'DESC']],
+    })
+      .then(result => res.status(200).json({
+        error: false,
+        data: { works: result, route },
+      }))
+      .catch(error => res.status(404).json({
+        error: true,
+        type: error,
+      }));
+  }
 });
 
 module.exports = router;

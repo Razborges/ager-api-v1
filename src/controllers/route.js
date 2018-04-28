@@ -15,21 +15,31 @@ router.post('/:numberSeries', async (req, res) => {
   const date = moment(start, 'DD/MM/YYYY').utc();
 
   const robot = await Robot.findOne({ where: { numberSeries } });
-  const route = Route.build({
-    name, type, start: date,
-  });
-  route.setRobot(robot);
 
-  route.save()
-    .then(result => res.status(201).json({
-      error: false,
-      data: result,
-    }))
-    .catch(error => res.status(501).json({
+  if (!robot) {
+    res.status(404).json({
       error: true,
       data: [],
-      type: error,
-    }));
+    });
+  }
+
+  if (robot) {
+    const route = Route.build({
+      name, type, start: date,
+    });
+    route.setRobot(robot);
+
+    route.save()
+      .then(result => res.status(201).json({
+        error: false,
+        data: result,
+      }))
+      .catch(error => res.status(501).json({
+        error: true,
+        data: [],
+        type: error,
+      }));
+  }
 });
 
 router.get('/:numberSeries', async (req, res) => {
@@ -37,18 +47,27 @@ router.get('/:numberSeries', async (req, res) => {
 
   const robot = await Robot.findOne({ where: { numberSeries } });
 
-  Route.findAll({
-    where: { robotId: robot.id, active: true },
-    order: [['createdAt', 'ASC']],
-  })
-    .then(result => res.status(200).json({
-      error: false,
-      data: { routes: result, robot },
-    }))
-    .catch(error => res.status(404).json({
+  if (!robot) {
+    res.status(404).json({
       error: true,
-      type: error,
-    }));
+      data: [],
+    });
+  }
+
+  if (robot) {
+    Route.findAll({
+      where: { robotId: robot.id, active: true },
+      order: [['createdAt', 'ASC']],
+    })
+      .then(result => res.status(200).json({
+        error: false,
+        data: { routes: result, robot },
+      }))
+      .catch(error => res.status(404).json({
+        error: true,
+        type: error,
+      }));
+  }
 });
 
 router.put('/:idRoute', async (req, res) => {
