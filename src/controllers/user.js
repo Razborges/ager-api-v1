@@ -14,27 +14,29 @@ router.post('/:numberSeries', async (req, res) => {
   const robot = await Robot.findOne({ where: { numberSeries } });
 
   if (!robot) {
-    res.status(501).json({
+    res.status(404).json({
       error: true,
       data: [],
     });
   }
 
-  const user = User.build({
-    name, email, service, serviceId,
-  });
-  user.setRobot(robot);
+  if (robot) {
+    const user = User.build({
+      name, email, service, serviceId,
+    });
+    user.setRobot(robot);
 
-  user.save()
-    .then(result => res.status(201).json({
-      error: false,
-      data: result,
-    }))
-    .catch(error => res.status(501).json({
-      error: true,
-      data: [],
-      type: error,
-    }));
+    user.save()
+      .then(result => res.status(201).json({
+        error: false,
+        data: result,
+      }))
+      .catch(error => res.status(501).json({
+        error: true,
+        data: [],
+        type: error,
+      }));
+  }
 });
 
 router.get('/:serviceId', async (req, res) => {
