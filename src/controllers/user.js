@@ -12,6 +12,14 @@ router.post('/:numberSeries', async (req, res) => {
   } = req.body;
 
   const robot = await Robot.findOne({ where: { numberSeries } });
+
+  if (!robot) {
+    res.status(501).json({
+      error: true,
+      data: [],
+    });
+  }
+
   const user = User.build({
     name, email, service, serviceId,
   });
