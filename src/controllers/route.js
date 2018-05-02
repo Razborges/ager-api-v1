@@ -18,32 +18,34 @@ router.post('/:numberSeries', async (req, res) => {
     date = moment(start, 'DD/MM/YYYY').utc();
   }
 
-  const robot = await Robot.findOne({ where: { numberSeries } });
+  res.json({ start });
 
-  if (!robot) {
-    res.status(404).json({
-      error: true,
-      data: [],
-    });
-  }
+  // const robot = await Robot.findOne({ where: { numberSeries } });
 
-  if (robot) {
-    const route = Route.build({
-      name, type, start: date,
-    });
-    route.setRobot(robot);
+  // if (!robot) {
+  //   res.status(404).json({
+  //     error: true,
+  //     data: [],
+  //   });
+  // }
 
-    route.save()
-      .then(result => res.status(201).json({
-        error: false,
-        data: result,
-      }))
-      .catch(error => res.status(501).json({
-        error: true,
-        data: [],
-        type: error,
-      }));
-  }
+  // if (robot) {
+  //   const route = Route.build({
+  //     name, type, start: date,
+  //   });
+  //   route.setRobot(robot);
+
+  //   route.save()
+  //     .then(result => res.status(201).json({
+  //       error: false,
+  //       data: result,
+  //     }))
+  //     .catch(error => res.status(501).json({
+  //       error: true,
+  //       data: [],
+  //       type: error,
+  //     }));
+  // }
 });
 
 router.get('/:numberSeries', async (req, res) => {
