@@ -9,12 +9,13 @@ const router = express.Router();
 router.post('/:numberSeries', async (req, res) => {
   const { numberSeries } = req.params;
   const {
-    name, type, start,
+    name, type,
   } = req.body;
 
   let date = '';
 
-  if (start.length > 0) {
+  if (req.body.start) {
+    const { start } = req.body;
     date = moment(start, 'DD/MM/YYYY').utc();
   }
 
