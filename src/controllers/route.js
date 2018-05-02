@@ -12,7 +12,7 @@ router.post('/:numberSeries', async (req, res) => {
     name, type,
   } = req.body;
 
-  let date = '';
+  let date = null;
 
   if (req.body.start) {
     const { start } = req.body;
