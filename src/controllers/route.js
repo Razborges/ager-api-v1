@@ -14,7 +14,7 @@ router.post('/:numberSeries', async (req, res) => {
 
   let date = '';
 
-  if (start.lenght > 0) {
+  if (start.length > 0) {
     date = moment(start, 'DD/MM/YYYY').utc();
   }
 
