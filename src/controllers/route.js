@@ -12,7 +12,11 @@ router.post('/:numberSeries', async (req, res) => {
     name, type, start,
   } = req.body;
 
-  const date = moment(start, 'DD/MM/YYYY').utc();
+  let date = '';
+
+  if (start) {
+    date = moment(start, 'DD/MM/YYYY').utc();
+  }
 
   const robot = await Robot.findOne({ where: { numberSeries } });
 
