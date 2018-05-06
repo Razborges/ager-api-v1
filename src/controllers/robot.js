@@ -10,8 +10,9 @@ router.post('/', (req, res) => {
   const reg = new RegExp('[a-z]{5}d{3}$');
   const numberLenght = validator.isLength(numberSeries, { min: 8, max: 8 });
   const numberValid = reg.test(numberSeries);
+  const nameValid = validator.isEmpty(name);
 
-  if (numberValid && numberLenght) {
+  if (numberValid && numberLenght && !nameValid) {
     Robot.create({ numberSeries, name })
       .then(result => res.status(201).json({
         error: false,
@@ -23,10 +24,12 @@ router.post('/', (req, res) => {
         type: error,
       }));
   } else {
+    const error1 = nameValid ? 'Obrigatório preenchimento do nome.' : '';
+    const error2 = !numberValid || !numberLenght ? 'Número de série inválido.' : '';
     res.status(400).json({
       error: true,
       data: [],
-      type: 'Número de série inválido.',
+      type: `${error1} ${error2}`,
     });
   }
 });
