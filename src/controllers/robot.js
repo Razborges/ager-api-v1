@@ -32,7 +32,7 @@ router.post('/', (req, res) => {
     res.status(400).json({
       error: true,
       data: [],
-      type: `${error1}${error2}`,
+      type: `${error1} ${error2}`,
     });
   }
 });

@@ -60,7 +60,7 @@ router.post('/:idRoute', async (req, res) => {
     res.status(400).json({
       error: true,
       data: [],
-      type: `${error1}${error2}${error3}${error4}`,
+      type: `${error1} ${error2} ${error3} ${error4}`,
     });
   }
 });

@@ -15,9 +15,8 @@ router.post('/:numberSeries', async (req, res) => {
   const numberLength = validator.isLength(numberSeries, { min: 8, max: 8 });
   const numberValid = regex.test(numberSeries);
   const levelValid = validator.isInt(level);
-  const withLevel = validator.isEmpty(level);
 
-  if (numberValid && numberLength && levelValid && !withLevel) {
+  if (numberValid && numberLength && levelValid) {
     const robot = await Robot.findOne({ where: { numberSeries } });
 
     if (!robot) {
@@ -43,13 +42,13 @@ router.post('/:numberSeries', async (req, res) => {
         }));
     }
   } else {
-    const error1 = !levelValid || withLevel ? 'Obrigatório preenchimento do nível com um número inteiro.' : '';
+    const error1 = !levelValid ? 'Obrigatório preenchimento do nível com um número inteiro.' : '';
     const error2 = !numberValid || !numberLength ? 'Número de série inválido.' : '';
 
     res.status(400).json({
       error: true,
       data: [],
-      type: `${error1}${error2}`,
+      type: `${error1} ${error2}`,
     });
   }
 });

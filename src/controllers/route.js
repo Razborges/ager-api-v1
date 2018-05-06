@@ -20,15 +20,21 @@ router.post('/:numberSeries', async (req, res) => {
   if (req.body.start) {
     const { start } = req.body;
     date = moment(start, 'DD/MM/YYYY').utc();
+    if (!date.isValid()) {
+      res.status(400).json({
+        error: true,
+        data: [],
+        type: 'Utilize uma data válida.',
+      });
+    }
   }
 
   const numberLength = validator.isLength(numberSeries, { min: 8, max: 8 });
   const numberValid = regex.test(numberSeries);
   const nameValid = validator.isEmpty(name);
   const typeValid = validator.isEmpty(type);
-  const dateValid = date.isValid();
 
-  if (numberValid && numberLength && !nameValid && !typeValid && dateValid) {
+  if (numberValid && numberLength && !nameValid && !typeValid) {
     const robot = await Robot.findOne({ where: { numberSeries } });
 
     if (!robot) {
@@ -59,12 +65,11 @@ router.post('/:numberSeries', async (req, res) => {
     const error1 = nameValid ? 'Obrigatório preenchimento do nome.' : '';
     const error2 = !numberValid || !numberLength ? 'Número de série inválido.' : '';
     const error3 = typeValid ? 'Obrigatório preenchimento do tipo.' : '';
-    const error4 = !dateValid ? 'Utilize uma data válida.' : '';
 
     res.status(400).json({
       error: true,
       data: [],
-      type: `${error1}${error2}${error3}${error4}`,
+      type: `${error1} ${error2} ${error3}`,
     });
   }
 });
