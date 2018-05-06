@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
   const numberValid = reg.test(numberSeries);
   const nameValid = validator.isEmpty(name);
 
-  if (numberValid && numberLength && !nameValid) {
+  if (numberValid && !numberLength && !nameValid) {
     Robot.create({ numberSeries, name })
       .then(result => res.status(201).json({
         error: false,
@@ -26,13 +26,12 @@ router.post('/', (req, res) => {
       }));
   } else {
     const error1 = nameValid ? 'Obrigatório preenchimento do nome.' : '';
-    const error2 = !numberValid || !numberLength ? 'Número de série inválido.' : '';
+    const error2 = !numberValid || numberLength ? 'Número de série inválido.' : '';
 
     res.status(400).json({
       error: true,
       data: [],
       type: `${error1}${error2}`,
-      console: `Regex ${numberValid}, Length ${numberLength}`,
     });
   }
 });
